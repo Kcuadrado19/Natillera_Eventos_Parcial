@@ -217,6 +217,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Clases\clsCypher.cs" />
     <Compile Include="Clases\clsLogin.cs" />
     <Compile Include="Clases\TokenGenerator.cs" />
     <Compile Include="Clases\TokenValidationHandler.cs" />
@@ -228,7 +229,6 @@
     <Compile Include="Models\Administrador.cs">
       <DependentUpon>DBEVENTOS_NATILLERA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\clsLogin.cs" />
     <Compile Include="Models\DBEVENTOS_NATILLERA.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
