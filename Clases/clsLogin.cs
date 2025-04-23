@@ -5,6 +5,8 @@ using System.Web;
 using Natillera_Eventos_Parcial.Models;
 
 
+
+
 namespace Natillera_Eventos_Parcial.Clases
 {
     public class clsLogin
@@ -21,14 +23,14 @@ namespace Natillera_Eventos_Parcial.Clases
             try
             {
                 clsCypher cifrar = new clsCypher();
-                Usuario usuario = dbeventos_natillera.Usuarios.FirstOrDefault(u => u.userName == login.Usuario);
-                if (usuario == null)
+                Administrador admon = dbeventos_natillera.Administradors.FirstOrDefault(u => u.Usuario == login.Usuario);
+                if (admon == null)
                 {
                     loginRespuesta.Autenticado = false;
                     loginRespuesta.Mensaje = "Usuario no existe";
                     return false;
                 }
-                byte[] arrBytesSalt = Convert.FromBase64String(usuario.Salt);
+                byte[] arrBytesSalt = Convert.FromBase64String(admon.Salt);
                 string ClaveCifrada = cifrar.HashPassword(login.Clave, arrBytesSalt);
                 login.Clave = ClaveCifrada;
                 return true;
@@ -44,8 +46,8 @@ namespace Natillera_Eventos_Parcial.Clases
         {
             try
             {
-                Usuario usuario = dbeventos_natillera.Usuarios.FirstOrDefault(u => u.userName == login.Usuario && u.Clave == login.Clave);
-                if (usuario == null)
+                Administrador admon = dbeventos_natillera.Administradors.FirstOrDefault(u => u.Usuario == login.Usuario && u.Clave == login.Clave);
+                if (admon == null)
                 {
                     loginRespuesta.Autenticado = false;
                     loginRespuesta.Mensaje = "La clave no coincide";
@@ -65,21 +67,19 @@ namespace Natillera_Eventos_Parcial.Clases
             if (ValidarUsuario() && ValidarClave())
             {
                 string token = TokenGenerator.GenerateTokenJwt(login.Usuario);
-                return from U in dbeventos_natillera.Set<Usuario>()
-                       join UP in dbeventos_natillera.Set<Usuario_Perfil>()
-                       on U.id equals UP.idUsuario
-                       join P in dbeventos_natillera.Set<Perfil>()
-                       on UP.idPerfil equals P.id
-                       where U.userName == login.Usuario &&
-                               U.Clave == login.Clave
+
+                return from A in dbeventos_natillera.Set<Administrador>()
+                       join E in dbeventos_natillera.Set<Evento>()
+                       on A.idAministrador equals E.idAdministrador
+                       where A.Usuario == login.Usuario && A.Clave == login.Clave
                        select new LoginRespuesta
                        {
-                           Usuario = U.userName,
+                           Usuario = A.Usuario,
                            Autenticado = true,
-                           Perfil = P.Nombre,
-                           PaginaInicio = P.PaginaNavegar,
                            Token = token,
-                           Mensaje = ""
+                           Mensaje = "Usuario autenticado",
+                           Perfil = "Administrador", // valor fijo ya que no hay tabla Perfil
+                           PaginaInicio = "/admin/eventos" // ejemplo estático
                        };
             }
             else
