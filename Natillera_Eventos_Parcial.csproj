@@ -220,10 +220,13 @@
     <Compile Include="Clases\clsCypher.cs" />
     <Compile Include="Clases\clsEventos.cs" />
     <Compile Include="Clases\clsLogin.cs" />
+    <Compile Include="Clases\clsRegistroAdmin.cs" />
     <Compile Include="Clases\TokenGenerator.cs" />
     <Compile Include="Clases\TokenValidationHandler.cs" />
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\RegistrarAdminController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -251,6 +254,9 @@
     </Compile>
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\LoginRespuesta.cs" />
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>DBEVENTOS_NATILLERA.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
