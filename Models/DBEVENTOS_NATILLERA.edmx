@@ -7,14 +7,14 @@
     <Schema Namespace="DBEVENTOS_NATILLERAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Administrador">
           <Key>
-            <PropertyRef Name="idAministrador" />
+            <PropertyRef Name="idAdministrador" />
           </Key>
-          <Property Name="idAministrador" Type="int" Nullable="false" />
           <Property Name="Documento" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="NombreCompleto" Type="varchar" MaxLength="80" Nullable="false" />
           <Property Name="Usuario" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Clave" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Salt" Type="varchar" MaxLength="200" />
+          <Property Name="idAdministrador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Eventos">
           <Key>
@@ -44,7 +44,7 @@
           <End Role="Eventos" Type="Self.Eventos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Administrador">
-              <PropertyRef Name="idAministrador" />
+              <PropertyRef Name="idAdministrador" />
             </Principal>
             <Dependent Role="Eventos">
               <PropertyRef Name="idAdministrador" />
@@ -64,52 +64,14 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBEVENTOS_NATILLERAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Administrador">
-          <Key>
-            <PropertyRef Name="idAministrador" />
-          </Key>
-          <Property Name="idAministrador" Type="Int32" Nullable="false" />
-          <Property Name="Documento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NombreCompleto" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Usuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Clave" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Eventos" Relationship="Self.FK_Eventos_Administrador" FromRole="Administrador" ToRole="Eventos" />
-          <Property Name="Salt" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Evento">
-          <Key>
-            <PropertyRef Name="idEventos" />
-          </Key>
-          <Property Name="idEventos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idAdministrador" Type="Int32" Nullable="false" />
-          <Property Name="TipoEvento" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NombreEvento" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TotalIngreso" Type="Int32" Nullable="false" />
-          <Property Name="FechaEvento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Sede" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ActiviadesPlaneadas" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Administrador" Relationship="Self.FK_Eventos_Administrador" FromRole="Eventos" ToRole="Administrador" />
-        </EntityType>
-        <Association Name="FK_Eventos_Administrador">
-          <End Role="Administrador" Type="Self.Administrador" Multiplicity="1" />
-          <End Role="Eventos" Type="Self.Evento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Administrador">
-              <PropertyRef Name="idAministrador" />
-            </Principal>
-            <Dependent Role="Eventos">
-              <PropertyRef Name="idAdministrador" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="EVENTOS_NATILLERAEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Administradors" EntityType="Self.Administrador" />
-          <EntitySet Name="Eventos" EntityType="Self.Evento" />
-          <AssociationSet Name="FK_Eventos_Administrador" Association="Self.FK_Eventos_Administrador">
-            <End Role="Administrador" EntitySet="Administradors" />
-            <End Role="Eventos" EntitySet="Eventos" />
-          </AssociationSet>
           <EntitySet Name="sysdiagrams" EntityType="DBEVENTOS_NATILLERAModel.sysdiagram" />
+          <EntitySet Name="Administradors" EntityType="DBEVENTOS_NATILLERAModel.Administrador" />
+          <EntitySet Name="Eventos" EntityType="DBEVENTOS_NATILLERAModel.Evento" />
+          <AssociationSet Name="FK_Eventos_Administrador" Association="DBEVENTOS_NATILLERAModel.FK_Eventos_Administrador">
+            <End Role="Administrador" EntitySet="Administradors" />
+            <End Role="Evento" EntitySet="Eventos" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="sysdiagram">
           <Key>
@@ -121,38 +83,50 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityType Name="Administrador">
+          <Key>
+            <PropertyRef Name="idAdministrador" />
+          </Key>
+          <Property Name="Documento" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCompleto" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Usuario" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Clave" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Salt" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="idAdministrador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Eventos" Relationship="DBEVENTOS_NATILLERAModel.FK_Eventos_Administrador" FromRole="Administrador" ToRole="Evento" />
+        </EntityType>
+        <EntityType Name="Evento">
+          <Key>
+            <PropertyRef Name="idEventos" />
+          </Key>
+          <Property Name="idEventos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idAdministrador" Type="Int32" Nullable="false" />
+          <Property Name="TipoEvento" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="NombreEvento" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="TotalIngreso" Type="Int32" Nullable="false" />
+          <Property Name="FechaEvento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Sede" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActiviadesPlaneadas" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Administrador" Relationship="DBEVENTOS_NATILLERAModel.FK_Eventos_Administrador" FromRole="Evento" ToRole="Administrador" />
+        </EntityType>
+        <Association Name="FK_Eventos_Administrador">
+          <End Type="DBEVENTOS_NATILLERAModel.Administrador" Role="Administrador" Multiplicity="1" />
+          <End Type="DBEVENTOS_NATILLERAModel.Evento" Role="Evento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Administrador">
+              <PropertyRef Name="idAdministrador" />
+            </Principal>
+            <Dependent Role="Evento">
+              <PropertyRef Name="idAdministrador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DBEVENTOS_NATILLERAModelStoreContainer" CdmEntityContainer="EVENTOS_NATILLERAEntities">
-          <EntitySetMapping Name="Administradors">
-            <EntityTypeMapping TypeName="DBEVENTOS_NATILLERAModel.Administrador">
-              <MappingFragment StoreEntitySet="Administrador">
-                <ScalarProperty Name="Salt" ColumnName="Salt" />
-                <ScalarProperty Name="idAministrador" ColumnName="idAministrador" />
-                <ScalarProperty Name="Documento" ColumnName="Documento" />
-                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
-                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
-                <ScalarProperty Name="Clave" ColumnName="Clave" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Eventos">
-            <EntityTypeMapping TypeName="DBEVENTOS_NATILLERAModel.Evento">
-              <MappingFragment StoreEntitySet="Eventos">
-                <ScalarProperty Name="idEventos" ColumnName="idEventos" />
-                <ScalarProperty Name="idAdministrador" ColumnName="idAdministrador" />
-                <ScalarProperty Name="TipoEvento" ColumnName="TipoEvento" />
-                <ScalarProperty Name="NombreEvento" ColumnName="NombreEvento" />
-                <ScalarProperty Name="TotalIngreso" ColumnName="TotalIngreso" />
-                <ScalarProperty Name="FechaEvento" ColumnName="FechaEvento" />
-                <ScalarProperty Name="Sede" ColumnName="Sede" />
-                <ScalarProperty Name="ActiviadesPlaneadas" ColumnName="ActiviadesPlaneadas" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="DBEVENTOS_NATILLERAModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -161,6 +135,32 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Administradors">
+            <EntityTypeMapping TypeName="DBEVENTOS_NATILLERAModel.Administrador">
+              <MappingFragment StoreEntitySet="Administrador">
+                <ScalarProperty Name="idAdministrador" ColumnName="idAdministrador" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Eventos">
+            <EntityTypeMapping TypeName="DBEVENTOS_NATILLERAModel.Evento">
+              <MappingFragment StoreEntitySet="Eventos">
+                <ScalarProperty Name="ActiviadesPlaneadas" ColumnName="ActiviadesPlaneadas" />
+                <ScalarProperty Name="Sede" ColumnName="Sede" />
+                <ScalarProperty Name="FechaEvento" ColumnName="FechaEvento" />
+                <ScalarProperty Name="TotalIngreso" ColumnName="TotalIngreso" />
+                <ScalarProperty Name="NombreEvento" ColumnName="NombreEvento" />
+                <ScalarProperty Name="TipoEvento" ColumnName="TipoEvento" />
+                <ScalarProperty Name="idAdministrador" ColumnName="idAdministrador" />
+                <ScalarProperty Name="idEventos" ColumnName="idEventos" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

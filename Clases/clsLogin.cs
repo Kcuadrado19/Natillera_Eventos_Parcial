@@ -70,7 +70,7 @@ namespace Natillera_Eventos_Parcial.Clases
 
                 return from A in dbeventos_natillera.Set<Administrador>()
                        join E in dbeventos_natillera.Set<Evento>()
-                       on A.idAministrador equals E.idAdministrador
+                       on A.idAdministrador equals E.idAdministrador
                        where A.Usuario == login.Usuario && A.Clave == login.Clave
                        select new LoginRespuesta
                        {

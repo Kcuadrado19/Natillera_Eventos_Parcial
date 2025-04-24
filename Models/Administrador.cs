@@ -20,12 +20,12 @@ namespace Natillera_Eventos_Parcial.Models
             this.Eventos = new HashSet<Evento>();
         }
     
-        public int idAministrador { get; set; }
         public string Documento { get; set; }
         public string NombreCompleto { get; set; }
         public string Usuario { get; set; }
         public string Clave { get; set; }
         public string Salt { get; set; }
+        public int idAdministrador { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Evento> Eventos { get; set; }

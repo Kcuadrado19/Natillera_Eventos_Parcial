@@ -5,10 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1d69192dc6f0479fb0899a5a0f26e2f7" Name="Diagram1">
-        <EntityTypeShape EntityType="DBEVENTOS_NATILLERAModel.Administrador" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBEVENTOS_NATILLERAModel.Evento" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="DBEVENTOS_NATILLERAModel.FK_Eventos_Administrador" ManuallyRouted="false" />
         <EntityTypeShape EntityType="DBEVENTOS_NATILLERAModel.sysdiagram" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="DBEVENTOS_NATILLERAModel.Administrador" Width="1.5" PointX="9.125" PointY="2.125" />
+        <EntityTypeShape EntityType="DBEVENTOS_NATILLERAModel.Evento" Width="1.5" PointX="12.25" PointY="2" />
+        <AssociationConnector Association="DBEVENTOS_NATILLERAModel.FK_Eventos_Administrador" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

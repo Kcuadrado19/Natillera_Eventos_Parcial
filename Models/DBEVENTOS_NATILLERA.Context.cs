@@ -25,8 +25,8 @@ namespace Natillera_Eventos_Parcial.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Administrador> Administradors { get; set; }
         public virtual DbSet<Evento> Eventos { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

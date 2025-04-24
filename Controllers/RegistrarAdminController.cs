@@ -50,7 +50,11 @@ namespace Natillera_Eventos_Parcial.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Error general: " + ex.Message);
+                string mensaje = ex.InnerException != null
+                    ? ex.InnerException.InnerException?.Message ?? ex.InnerException.Message
+                    : ex.Message;
+
+                return BadRequest("Error detallado: " + mensaje);
             }
         }
 
