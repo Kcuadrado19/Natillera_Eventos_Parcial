@@ -11,7 +11,8 @@ namespace Natillera_Eventos_Parcial.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Evento
     {
         public int idEventos { get; set; }
@@ -21,8 +22,10 @@ namespace Natillera_Eventos_Parcial.Models
         public int TotalIngreso { get; set; }
         public System.DateTime FechaEvento { get; set; }
         public string Sede { get; set; }
-        public string ActiviadesPlaneadas { get; set; }
-    
+        public string ActividadesPlaneadas { get; set; }
+
+
+        [JsonIgnore]  // 🛑 Evita el bucle al serializar
         public virtual Administrador Administrador { get; set; }
     }
 }

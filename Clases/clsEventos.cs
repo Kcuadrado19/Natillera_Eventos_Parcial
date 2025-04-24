@@ -4,69 +4,115 @@ using System.Linq;
 using System.Web;
 using Natillera_Eventos_Parcial.Models;
 
+
 namespace Natillera_Eventos_Parcial.Clases
 {
     public class clsEventos
     {
         private EVENTOS_NATILLERAEntities db = new EVENTOS_NATILLERAEntities();
 
-        public IQueryable<Evento> Listar(string tipo = null, string nombre = null, DateTime? fecha = null)
+        // Crear un nuevo evento
+        public bool Crear(Evento evento)
         {
-            var query = db.Eventos.AsQueryable();
+            try
+            {
+                // ⚠️ Asignar un ID de administrador válido si es necesario
+                if (evento.idAdministrador == 0)
+                    evento.idAdministrador = 1; // Ajusta según tu lógica de autenticación
+
+                db.Eventos.Add(evento);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        // Listar eventos con filtros opcionales
+        public List<Evento> Listar(string tipo, string nombre, DateTime? fecha)
+        {
+            var query = db.Eventos.AsQueryable();  // Asegúrate de usar db
 
             if (!string.IsNullOrEmpty(tipo))
                 query = query.Where(e => e.TipoEvento.Contains(tipo));
+
             if (!string.IsNullOrEmpty(nombre))
                 query = query.Where(e => e.NombreEvento.Contains(nombre));
+
             if (fecha.HasValue)
                 query = query.Where(e => e.FechaEvento == fecha.Value);
 
-            return query;
+            return query.ToList();  // 🔥 sin Select, ni DTO
         }
 
-        public bool Crear(Evento nuevo)
+
+
+
+        // Actualizar evento
+        public bool Actualizar(Evento evento)
         {
             try
             {
-                db.Eventos.Add(nuevo);
+                var existente = db.Eventos.FirstOrDefault(e => e.idEventos == evento.idEventos);
+                if (existente == null)
+                {
+                    Console.WriteLine("⚠️ Evento no encontrado.");
+                    return false;
+                }
+
+                existente.TipoEvento = evento.TipoEvento;
+                existente.NombreEvento = evento.NombreEvento;
+                existente.TotalIngreso = evento.TotalIngreso;
+                existente.FechaEvento = evento.FechaEvento;
+                existente.Sede = evento.Sede;
+                existente.ActividadesPlaneadas = evento.ActividadesPlaneadas;
+
                 db.SaveChanges();
                 return true;
             }
-            catch { return false; }
-        }
-
-        public bool Actualizar(Evento actualizado)
-        {
-            try
+            catch (Exception ex)
             {
-                var original = db.Eventos.Find(actualizado.idEventos);
-                if (original == null) return false;
-
-                original.TipoEvento = actualizado.TipoEvento;
-                original.NombreEvento = actualizado.NombreEvento;
-                original.TotalIngreso = actualizado.TotalIngreso;
-                original.FechaEvento = actualizado.FechaEvento;
-                original.Sede = actualizado.Sede;
-                original.ActiviadesPlaneadas = actualizado.ActiviadesPlaneadas;
-
-                db.SaveChanges();
-                return true;
+                // 🔍 Mostramos el error detallado
+                Console.WriteLine("❌ ERROR AL ACTUALIZAR: " + ex.ToString());
+                return false;
             }
-            catch { return false; }
         }
 
+
+
+
+        // Eliminar evento por ID
         public bool Eliminar(int id)
         {
             try
             {
-                var ev = db.Eventos.Find(id);
-                if (ev == null) return false;
+                var evento = db.Eventos.FirstOrDefault(e => e.idEventos == id);
+                if (evento == null)
+                {
+                    Console.WriteLine("Evento no encontrado");
+                    return false;
+                }
 
-                db.Eventos.Remove(ev);
+                db.Eventos.Remove(evento);
                 db.SaveChanges();
                 return true;
             }
-            catch { return false; }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return false;
+            }
         }
+
+
+
+
+
+
+
     }
+
+
 }

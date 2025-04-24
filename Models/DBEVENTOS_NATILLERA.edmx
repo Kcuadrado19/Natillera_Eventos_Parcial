@@ -27,7 +27,7 @@
           <Property Name="TotalIngreso" Type="int" Nullable="false" />
           <Property Name="FechaEvento" Type="date" Nullable="false" />
           <Property Name="Sede" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ActiviadesPlaneadas" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="ActividadesPlaneadas" Type="varchar" MaxLength="500" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -106,8 +106,8 @@
           <Property Name="TotalIngreso" Type="Int32" Nullable="false" />
           <Property Name="FechaEvento" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Sede" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ActiviadesPlaneadas" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Administrador" Relationship="DBEVENTOS_NATILLERAModel.FK_Eventos_Administrador" FromRole="Evento" ToRole="Administrador" />
+          <Property Name="ActividadesPlaneadas" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Eventos_Administrador">
           <End Type="DBEVENTOS_NATILLERAModel.Administrador" Role="Administrador" Multiplicity="1" />
@@ -153,7 +153,7 @@
           <EntitySetMapping Name="Eventos">
             <EntityTypeMapping TypeName="DBEVENTOS_NATILLERAModel.Evento">
               <MappingFragment StoreEntitySet="Eventos">
-                <ScalarProperty Name="ActiviadesPlaneadas" ColumnName="ActiviadesPlaneadas" />
+                <ScalarProperty Name="ActividadesPlaneadas" ColumnName="ActividadesPlaneadas" />
                 <ScalarProperty Name="Sede" ColumnName="Sede" />
                 <ScalarProperty Name="FechaEvento" ColumnName="FechaEvento" />
                 <ScalarProperty Name="TotalIngreso" ColumnName="TotalIngreso" />

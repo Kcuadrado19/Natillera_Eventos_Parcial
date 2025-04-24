@@ -43,8 +43,11 @@ namespace Natillera_Eventos_Parcial.Controllers
         [Route("eliminar/{id}")]
         public IHttpActionResult Eliminar(int id)
         {
-            if (logica.Eliminar(id)) return Ok("Evento eliminado.");
+            if (logica.Eliminar(id))
+                return Ok("Evento eliminado.");
+
             return BadRequest("Error al eliminar el evento.");
         }
+
     }
 }
